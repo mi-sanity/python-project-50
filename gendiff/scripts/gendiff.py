@@ -1,10 +1,16 @@
 #!/usr/bin/env python3
 
-from gendiff.app_engine import get_help_gendiff
+import argparse
 
 
 def main():
-    get_help_gendiff()
+    parser = argparse.ArgumentParser(
+        prog='gendiff', 
+        description='Compares two configuration files and shows a difference.')
+    parser.add_argument('first_file')
+    parser.add_argument('second_file')
+    parser.add_argument('-f', '--format', help='set format of output')
+    parser.print_help()
 
 
 if __name__ == '__main__':
