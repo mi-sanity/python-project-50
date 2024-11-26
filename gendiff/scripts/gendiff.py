@@ -1,7 +1,7 @@
 import argparse
 # from gendiff.scripts.creat_diff import creat_diff
 # from gendiff.scripts.parser import parse_file
-import json 
+import json
 from gendiff.scripts.build_diff import build_diff
 
 
@@ -18,7 +18,7 @@ def generate_diff(file_path1, file_path2):
 
 def main():
     parser = argparse.ArgumentParser(
-        prog='gendiff', 
+        prog='gendiff',
         description='Compares two configuration files and shows a difference.')
     parser.add_argument('first_file')
     parser.add_argument('second_file')

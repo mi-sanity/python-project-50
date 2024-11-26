@@ -1,4 +1,4 @@
-def creat_diff(data1, data2):  
+def creat_diff(data1, data2):
     keys = sorted(set(data1.keys()).union(data2.keys()))
     diff = {}
 
