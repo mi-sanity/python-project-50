@@ -8,5 +8,8 @@
 
 
 ## Demo:
-*json*
+*Сравнение плоских файлов (JSON)*
 [![asciicast](https://asciinema.org/a/xj5KMVEnqTFFXbla8ZIfYRPTk.svg)](https://asciinema.org/a/xj5KMVEnqTFFXbla8ZIfYRPTk)
+
+*Сравнение плоских файлов (YAML)*
+[![asciicast](https://asciinema.org/a/ZpbdtFYj73zA7tdEH0WKNXc3Y.svg)](https://asciinema.org/a/ZpbdtFYj73zA7tdEH0WKNXc3Y)

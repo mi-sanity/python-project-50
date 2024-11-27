@@ -9,8 +9,10 @@ def generate_diff(file_path1, file_path2):
     # data1 = parse_file(file_path1)
     # data2 = parse_file(file_path2)
     # diff = creat_diff(data1, data2)
-    file_path1 = json.load(open('/home/mi_sanity/python-project-50/tests/fixtures/file1.json'))
-    file_path2 = json.load(open('/home/mi_sanity/python-project-50/tests/fixtures/file2.json'))
+    # file_path1 = json.load(open('/home/mi_sanity/python-project-50/tests/fixtures/file1.json'))
+    # file_path2 = json.load(open('/home/mi_sanity/python-project-50/tests/fixtures/file2.json'))
+    file_path1 = json.load(open('/home/mi_sanity/python-project-50/tests/fixtures/file1.yml'))
+    file_path2 = json.load(open('/home/mi_sanity/python-project-50/tests/fixtures/file2.yml'))
     # diff = creat_diff(file_path1, file_path2)
     diff = build_diff(file_path1, file_path2)
     return diff
