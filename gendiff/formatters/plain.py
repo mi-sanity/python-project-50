@@ -1,16 +1,16 @@
 def plain(diff):
-    lines = plain_formatter(diff)
+    lines = plain_format(diff)
     result = '\n'.join(lines)
     return result
 
 
-def plain_formatter(diff, path=""):
+def plain_format(diff, path=""):
     lines = []
 
     def add_lines(status, value, full_path):
         actions = {
             "nested": lambda value, full_path: lines.extend(
-                plain_formatter(value, full_path)
+                plain_format(value, full_path)
             ),
             "added": lambda value, full_path: lines.append(
                 format_added_data(value, full_path)

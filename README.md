@@ -25,3 +25,6 @@
 
 *Плоский формат (YAML)*
 [![asciicast](https://asciinema.org/a/f3Vbz3oRb4MkJmWUrwqFSNCxu.svg)](https://asciinema.org/a/f3Vbz3oRb4MkJmWUrwqFSNCxu)
+
+*Вывод в JSON*
+[![asciicast](https://asciinema.org/a/9oojeNVDCoPDW9F2J60yyuSjp.svg)](https://asciinema.org/a/9oojeNVDCoPDW9F2J60yyuSjp)

@@ -3,11 +3,13 @@ from gendiff.scripts.parser import parse_file
 from gendiff.scripts.build_diff import build_diff
 from gendiff.formatters.stylish import stylish
 from gendiff.formatters.plain import plain
+from gendiff.formatters.json_format import json_format
 
 
 FORMAT_NAMES = {
     'stylish': stylish,
-    'plain': plain
+    'plain': plain,
+    'json': json_format
 }
 
 
@@ -28,7 +30,7 @@ def main():
     parser.add_argument('first_file')
     parser.add_argument('second_file')
     parser.add_argument('-f', '--format', default='stylish',
-                        choices=['stylish', 'plain'],
+                        choices=['stylish', 'plain', 'json'],
                         help='set format of output')
     args = parser.parse_args()
     file1 = args.first_file
