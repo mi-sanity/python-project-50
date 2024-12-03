@@ -13,3 +13,9 @@
 
 *Сравнение плоских файлов (YAML)*
 [![asciicast](https://asciinema.org/a/ZpbdtFYj73zA7tdEH0WKNXc3Y.svg)](https://asciinema.org/a/ZpbdtFYj73zA7tdEH0WKNXc3Y)
+
+*Рекурсивное сравнение (JSON)*
+[![asciicast](https://asciinema.org/a/qCOgrAI0Dn8EFQHlXK2Iw6SNY.svg)](https://asciinema.org/a/qCOgrAI0Dn8EFQHlXK2Iw6SNY)
+
+*Рекурсивное сравнение (YAML)*
+[![asciicast](https://asciinema.org/a/1c31lsRAIoAFWO0dh7GAVRZek.svg)](https://asciinema.org/a/1c31lsRAIoAFWO0dh7GAVRZek)

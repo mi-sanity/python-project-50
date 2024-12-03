@@ -1,15 +1,18 @@
 import json
+import yaml
 import os
 
 
-def parse_file(file_path):
-    view = os.path.splitext(file_path)[1].lower()
+def parse_file(file_name):
+    extension = os.path.splitext(file_name)[1].lower()
     parser = {
         '.json': json.load,
+        '.yaml': yaml.safe_load,
+        '.yml': yaml.safe_load
     }
 
-    if view not in parser:
-        raise ValueError(f"Unsupported file format: {view}")
+    if extension not in parser:
+        raise ValueError(f"Unsupported extension: {extension}")
 
-    with open(file_path) as file:
-        return parser[view](file)
+    with open(file_name) as file:
+        return parser[extension](file)

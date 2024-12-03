@@ -3,10 +3,14 @@ from gendiff import generate_diff
 
 
 @pytest.mark.parametrize("file1, file2, formatter, result", [
-    ("tests/fixtures/file1.json", "tests/fixtures/file2.json", 'json',
-     "tests/fixtures/result_json.txt"),
-    ("tests/fixtures/file1.yml", "tests/fixtures/file2.yml", 'yml',
-     "tests/fixtures/result_yml.txt"),
+    ("tests/fixtures/file1.json", 
+     "tests/fixtures/file2.json", 
+     "stylish",
+     "tests/fixtures/result_json_yml_yaml.txt"),
+    ("tests/fixtures/file1.yml", 
+     "tests/fixtures/file2.yml", 
+     "stylish",
+     "tests/fixtures/result_json_yml_yaml.txt"),
 ])
 
 

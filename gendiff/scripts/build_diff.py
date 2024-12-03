@@ -1,14 +1,16 @@
 def build_diff(data1, data2):
-    keys = sorted(set(data1.keys() | data2.keys()))
-    diff = []
+    keys = sorted(set(data1.keys()).union(data2.keys()))
+    diff = {}
 
     for key in keys:
-        if not data2.get(key):
-            diff.append(f"  - {key}: {data1.get(key)}")
-        elif data1.get(key) == data2.get(key):
-            diff.append(f"    {key}: {data1.get(key)}")
-        elif not data1.get(key):
-            diff.append(f"  + {key}: {data2.get(key)}")
+        if key in data1 and key not in data2:
+            diff[key] = ('removed', data1[key])
+        elif key not in data1 and key in data2:
+            diff[key] = ('added', data2[key])
+        elif data1[key] == data2[key]:
+            diff[key] = ('unchanged', data1[key])
+        elif isinstance(data1[key], dict) and isinstance(data2[key], dict):
+            diff[key] = ('nested', build_diff(data1[key], data2[key]))
         else:
-            diff.append(f"  - {key}: {data1.get(key)}\n  + {key}: {data2.get(key)}")
-    return '\n'.join(diff)
+            diff[key] = ('changed', (data1[key], data2[key]))
+    return diff
