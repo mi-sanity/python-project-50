@@ -29,10 +29,11 @@ test:
 	poetry run pytest
 
 test-coverage:
-	poetry run pytest --cov
+	poetry run pytest --cov=gendiff --cov-report xml
 
-test-print:
-	poetry run pytest -s
+selfcheck:
+	poetry check
 
+check: selfcheck test lint
 
-.PHONY: install build lint
+.PHONY: install build lint test selfcheck check
