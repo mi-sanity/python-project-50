@@ -1,10 +1,10 @@
 import argparse
-from gendiff.scripts.parser import parse_file
-from gendiff.scripts.build_diff import build_diff
-from gendiff.formatters.stylish import stylish
-from gendiff.formatters.plain import plain
-from gendiff.formatters.json_format import json_format
 
+from gendiff.formatters.json_format import json_format
+from gendiff.formatters.plain import plain
+from gendiff.formatters.stylish import stylish
+from gendiff.scripts.build_diff import build_diff
+from gendiff.scripts.parser import parse_file
 
 FORMAT_NAMES = {
     'stylish': stylish,
