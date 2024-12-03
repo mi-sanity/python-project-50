@@ -11,6 +11,14 @@ from gendiff import generate_diff
      "tests/fixtures/file2.yml", 
      "stylish",
      "tests/fixtures/result_json_yml_yaml.txt"),
+     ("tests/fixtures/file1.json", 
+     "tests/fixtures/file2.json", 
+     "plain",
+     "tests/fixtures/result_plain.txt"),
+    ("tests/fixtures/file1.yml", 
+     "tests/fixtures/file2.yml", 
+     "plain",
+     "tests/fixtures/result_plain.txt"),
 ])
 
 

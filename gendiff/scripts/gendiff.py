@@ -2,10 +2,12 @@ import argparse
 from gendiff.scripts.parser import parse_file
 from gendiff.scripts.build_diff import build_diff
 from gendiff.formatters.stylish import stylish
+from gendiff.formatters.plain import plain
 
 
 FORMAT_NAMES = {
-    'stylish': stylish
+    'stylish': stylish,
+    'plain': plain
 }
 
 
@@ -26,6 +28,7 @@ def main():
     parser.add_argument('first_file')
     parser.add_argument('second_file')
     parser.add_argument('-f', '--format', default='stylish',
+                        choices=['stylish', 'plain'],
                         help='set format of output')
     args = parser.parse_args()
     file1 = args.first_file
