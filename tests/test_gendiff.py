@@ -23,7 +23,6 @@ def test_generate_diff(file1, file2, formatter, file_result):
     file1_path = get_basic_path(file1)
     file2_path = get_basic_path(file2)
     file_result_path = get_basic_path(file_result)
-
     diff = generate_diff(file1_path, file2_path, formatter)
     expected_result = get_content(file_result_path)
     assert diff == expected_result
