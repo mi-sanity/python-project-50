@@ -42,4 +42,7 @@ ruff-check:
 ruff-fix:
 	ruff check --fix --select I
 
+isort-fix:
+	isort .
+
 .PHONY: install build lint test selfcheck check
