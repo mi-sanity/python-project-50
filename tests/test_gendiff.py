@@ -17,8 +17,6 @@ def get_basic_path(file_name):
     ("file1.json", "file2.json", "json", "result_json_format.txt"),
     ("file1.yml", "file2.yml", "json", "result_json_format.txt"),
 ])
-
-
 def test_generate_diff(file1, file2, formatter, file_result):
     file1_path = get_basic_path(file1)
     file2_path = get_basic_path(file2)
