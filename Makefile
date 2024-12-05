@@ -36,4 +36,10 @@ selfcheck:
 
 check: selfcheck test lint
 
+ruff-check:
+	ruff check --select I
+
+ruff-fix:
+	ruff check --fix --select I
+
 .PHONY: install build lint test selfcheck check
