@@ -10,36 +10,29 @@ def stylish(diff):
 
 def tree_view(diff, depth=1):
     lines = []
-    for key, (type, value) in sorted(diff.items()):
-        lines = create_lines(lines, key, value, depth, type)
+    for key, (status, value) in sorted(diff.items()):
+        lines = create_lines(lines, key, value, depth, status)
     result = '\n'.join(lines)
     return result
 
 
-def create_lines(lines, key, value, depth, type):
+def create_lines(lines, key, value, depth, status):
     prefix = '  '
-    if type == 'nested':
+    if status == 'nested':
         indent = (DEFAULT_INDENT * depth - LEFT_INDENT) * ' '
         child_diff = tree_view(value, depth + CHANGE_DEPTH)
         format_value = f'{{\n{child_diff}\n{indent}  }}'
-        lines = add_format_and_indent(depth, lines, prefix, key, format_value)
-    elif type == 'changed':
-        lines = changed_data_diff(lines, value, depth, key)
-    elif type == 'added':
+        lines = add_format(depth, lines, prefix, key, format_value, status)
+    elif status == 'changed':
+        lines = add_format(depth, lines, prefix, key, value, status)
+    elif status == 'added':
         prefix = '+ '
-        lines = add_format_and_indent(depth, lines, prefix, key, value)
-    elif type == 'removed':
+        lines = add_format(depth, lines, prefix, key, value, status)
+    elif status == 'removed':
         prefix = '- '
-        lines = add_format_and_indent(depth, lines, prefix, key, value)
+        lines = add_format(depth, lines, prefix, key, value, status)
     else:
-        lines = add_format_and_indent(depth, lines, prefix, key, value)
-    return lines
-
-
-def add_format_and_indent(depth, lines, prefix, key, value):
-    format_value = create_format_value(value, depth + CHANGE_DEPTH)
-    indent = (DEFAULT_INDENT * depth - LEFT_INDENT) * ' '
-    lines.append(f"{indent}{prefix}{key}: {format_value}")
+        lines = add_format(depth, lines, prefix, key, value, status)
     return lines
 
 
@@ -49,8 +42,7 @@ def create_format_value(value, depth):
         lines = ['{']
         for key, val in value.items():
             format_value = create_format_value(val, depth + CHANGE_DEPTH)
-            lines = add_format_and_indent(depth, lines,
-                                          prefix, key, format_value)
+            lines = add_format(depth, lines, prefix, key, format_value)
         indent = ' ' * (DEFAULT_INDENT * (depth - CHANGE_DEPTH))
         lines.append(f"{indent}}}")
         return '\n'.join(lines)
@@ -63,10 +55,20 @@ def create_format_value(value, depth):
     return str(value)
 
 
-def changed_data_diff(lines, value, depth, key):
-    old, new = value
-    old_new_pairs = [('- ', old), ('+ ', new)]
-    for prefix, value in old_new_pairs:
+def add_format(depth, lines, prefix, key, value, status=None):
+    indent = (DEFAULT_INDENT * depth - LEFT_INDENT) * ' '
+    if status != 'changed':
         format_value = create_format_value(value, depth + CHANGE_DEPTH)
-        lines = add_format_and_indent(depth, lines, prefix, key, format_value)
-    return lines
+        lines.append(f"{indent}{prefix}{key}: {format_value}")
+        return lines
+    else:
+        old, new = value
+        old_format_value = create_format_value(old, depth + CHANGE_DEPTH)
+        new_format_value = create_format_value(new, depth + CHANGE_DEPTH)
+        old_prefix = '- '
+        new_prefix = '+ '
+        lines.append(
+            f"{indent}{old_prefix}{key}: {old_format_value}"
+            f"\n{indent}{new_prefix}{key}: {new_format_value}"
+        )
+        return lines

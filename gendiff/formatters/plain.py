@@ -1,6 +1,5 @@
 def plain(diff):
-    lines = plain_format(diff)
-    result = '\n'.join(lines)
+    result = '\n'.join(plain_format(diff))
     return result
 
 
@@ -13,13 +12,13 @@ def plain_format(diff, path=""):
                 plain_format(value, full_path)
             ),
             "added": lambda value, full_path: lines.append(
-                format_added_data(value, full_path)
+                create_format_data(status, value, full_path)
             ),
             "removed": lambda value, full_path: lines.append(
                 f"Property '{full_path}' was removed"
             ),
             "changed": lambda value, full_path: lines.append(
-                format_changed_data(value, full_path)
+                create_format_data(status, value, full_path)
             ),
             "unchanged": lambda value, full_path: None
         }
@@ -51,38 +50,20 @@ def create_format_value(value):
     return str(value).lower()
 
 
-def format_added_data(value, full_path):
-    value = create_format_value(value)
-    if isinstance(value, dict):
-        value_description = "[complex value]"
-    elif isinstance(value, str):
-        value_description = f"{value}"
-    else:
-        value_description = str(value).lower()
-    text = (
-        f"Property '{full_path}' was added "
-        f"with value: {value_description}"
-    )
-    return text
-
-
-def format_changed_data(value, full_path):
-    old, new = value
-    old, new = create_format_value(old), create_format_value(new)
-    if isinstance(old, dict):
-        old_value = "[complex value]"
-    elif isinstance(old, str):
-        old_value = f"{old}"
-    else:
-        old_value = str(old).lower()
-    if isinstance(new, dict):
-        new_value = "[complex value]"
-    elif isinstance(new, str):
-        new_value = f"{new}"
-    else:
-        new_value = str(new).lower()
-    text = (
-        f"Property '{full_path}' was updated. "
-        f"From {old_value} to {new_value}"
-    )
-    return text
+def create_format_data(status, value, full_path):
+    if status == "added":
+        value = create_format_value(value)
+        text = (
+            f"Property '{full_path}' was added "
+            f"with value: {value}"
+        )
+        return text
+    elif status == "changed":
+        old, new = value
+        old_value = create_format_value(old)
+        new_value = create_format_value(new)
+        text = (
+            f"Property '{full_path}' was updated. "
+            f"From {old_value} to {new_value}"
+        )
+        return text

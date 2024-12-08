@@ -3,21 +3,20 @@ import os
 
 import yaml
 
-FORMAT_FILES = {
+FORMATTER_FUNCTIONS = {
     '.json': json.load,
     '.yaml': yaml.safe_load,
     '.yml': yaml.safe_load
 }
 
 
-def get_extension(file):
-    extension = os.path.splitext(file)[1].lower()
-    return extension
+def get_content(file_name):
+    file_content = open(file_name)
+    return file_content
 
 
-def parse_file(file_name, extension):
-    if extension not in FORMAT_FILES:
+def parse_file(file_name, file_content):
+    extension = os.path.splitext(file_name)[1].lower()
+    if extension not in FORMATTER_FUNCTIONS:
         raise ValueError(f"Unsupported extension: {extension}")
-
-    with open(file_name) as file:
-        return FORMAT_FILES[extension](file)
+    return FORMATTER_FUNCTIONS[extension](file_content)
