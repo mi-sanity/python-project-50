@@ -1,74 +1,54 @@
 DEFAULT_INDENT = 4
-LEFT_INDENT = 2
-CHANGE_DEPTH = 1
 
 
-def stylish(diff):
-    result = '{\n' + tree_view(diff) + '\n}'
-    return result
+def stylish(diff, depth=0):
+    tree = []
+
+    for key in diff:
+        item = diff[key]
+        status = item["status"]
+        val = item["value"]
+        value = to_str(val, depth)
+        indent = " " * (depth * DEFAULT_INDENT)
+        prefix = "    "
+        prefix_plus = "  + "
+        prefix_minus = "  - "
+
+        if status == "unchanged":
+            tree.append(f"{indent}{prefix}{key}: {value}")
+        elif status == "added":
+            tree.append(f"{indent}{prefix_plus}{key}: {value}")
+        elif status == "removed":
+            tree.append(f"{indent}{prefix_minus}{key}: {value}")
+        elif status == "changed":
+            old, new = val
+            old_value = to_str(old, depth)
+            new_value = to_str(new, depth)
+            tree.append(f"{indent}{prefix_minus}{key}: {old_value}")
+            tree.append(f"{indent}{prefix_plus}{key}: {new_value}")
+        elif status == "nested":
+            tree.append(
+                f"{indent}{prefix}{key}: {stylish(val, depth + 1)}"
+            )
+    format = "\n".join(tree)
+    return f"{{\n{format}\n{indent}}}"
 
 
-def tree_view(diff, depth=1):
-    lines = []
-    for key, (status, value) in sorted(diff.items()):
-        lines = create_lines(lines, key, value, depth, status)
-    result = '\n'.join(lines)
-    return result
-
-
-def create_lines(lines, key, value, depth, status):
-    prefix = '  '
-    if status == 'nested':
-        indent = (DEFAULT_INDENT * depth - LEFT_INDENT) * ' '
-        child_diff = tree_view(value, depth + CHANGE_DEPTH)
-        format_value = f'{{\n{child_diff}\n{indent}  }}'
-        lines = add_format(depth, lines, prefix, key, format_value, status)
-    elif status == 'changed':
-        lines = add_format(depth, lines, prefix, key, value, status)
-    elif status == 'added':
-        prefix = '+ '
-        lines = add_format(depth, lines, prefix, key, value, status)
-    elif status == 'removed':
-        prefix = '- '
-        lines = add_format(depth, lines, prefix, key, value, status)
-    else:
-        lines = add_format(depth, lines, prefix, key, value, status)
-    return lines
-
-
-def create_format_value(value, depth):
+def to_str(value, depth, indent=0):
     if isinstance(value, dict):
-        prefix = '  '
-        lines = ['{']
+        format_value = []
+        nested_indent1 = " " * ((depth + 1) * DEFAULT_INDENT)
+        nested_indent2 = " " * ((depth + 2) * DEFAULT_INDENT)
         for key, val in value.items():
-            format_value = create_format_value(val, depth + CHANGE_DEPTH)
-            lines = add_format(depth, lines, prefix, key, format_value)
-        indent = ' ' * (DEFAULT_INDENT * (depth - CHANGE_DEPTH))
-        lines.append(f"{indent}}}")
-        return '\n'.join(lines)
+            format_value.append(
+                f"{nested_indent2}{key}: "
+                f"{to_str(val, depth + 1, DEFAULT_INDENT)}"
+            )
+        formatted_str = "\n".join(format_value)
+        return f"{{\n{formatted_str}\n{nested_indent1}}}"
     elif isinstance(value, bool):
         return str(value).lower()
     elif value is None:
         return 'null'
-    elif isinstance(value, str):
-        return value
-    return str(value)
-
-
-def add_format(depth, lines, prefix, key, value, status=None):
-    indent = (DEFAULT_INDENT * depth - LEFT_INDENT) * ' '
-    if status != 'changed':
-        format_value = create_format_value(value, depth + CHANGE_DEPTH)
-        lines.append(f"{indent}{prefix}{key}: {format_value}")
-        return lines
     else:
-        old, new = value
-        old_format_value = create_format_value(old, depth + CHANGE_DEPTH)
-        new_format_value = create_format_value(new, depth + CHANGE_DEPTH)
-        old_prefix = '- '
-        new_prefix = '+ '
-        lines.append(
-            f"{indent}{old_prefix}{key}: {old_format_value}"
-            f"\n{indent}{new_prefix}{key}: {new_format_value}"
-        )
-        return lines
+        return str(value)
